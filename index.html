@@ -18,10 +18,14 @@ body {
         radial-gradient(circle at 80% 10%, rgba(255,110,200,0.9), transparent 50%),
         radial-gradient(circle at 50% 80%, rgba(140,90,255,0.9), transparent 50%),
         linear-gradient(135deg, #4F8BFF, #8D5AFB 50%, #FF5BC4);
+
     background-blend-mode: overlay, screen, normal;
     overflow-x: hidden;
-    padding-bottom: calc(160px + env(safe-area-inset-bottom));
+
+    /* FIX: space so footer doesn't cover the last options */
+    padding-bottom: calc(260px + env(safe-area-inset-bottom));
 }
+
 
 /* HEADER */
 .header {
@@ -87,15 +91,22 @@ body {
     bottom: 0;
     width: 100%;
     backdrop-filter: blur(20px);
-    background: rgba(255,255,255,0.45);
-    padding: 14px 25px;
+    background: rgba(255,255,255,0.55);
+    padding: 10px 22px; /* reduced height */
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    height: 70px; /* fixed compact height */
+    
     font-weight: 700;
-    font-size: clamp(16px, 2.5vw, 22px);
+    font-size: clamp(15px, 2.5vw, 20px);
     color: #000;
+
+    /* safe-area support for iPhones */
+    padding-bottom: env(safe-area-inset-bottom);
 }
+
 
 #weiterBtn {
     padding: 12px 34px;
