@@ -50,6 +50,37 @@
     color: #000;
 }
 
+/* MOBILE: Make images bigger */
+.row-grid {
+    display: grid;
+    gap: 14px;                   /* More spacing */
+    grid-template-columns: repeat(2, 1fr);  /* 2 big images per row */
+}
+
+.row-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;        /* Bigger corners */
+    object-fit: cover;
+}
+@media (min-width: 700px) {
+    .row-grid {
+        gap: 14px;
+        grid-template-columns: repeat(4, 1fr);  /* still 4 per row */
+    }
+
+    .row-grid img {
+        border-radius: 22px;
+        width: 100%;
+    }
+
+    .row-wrapper {
+        margin: 40px 34px;
+        padding: 26px;
+    }
+}
+
+
     /* Rows */
     .row-wrapper {
     margin: 36px 50px;      /* TOP/BOTTOM 36px — LEFT/RIGHT 26px */
