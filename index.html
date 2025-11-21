@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deine Wahl</title>
+
+<style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
+        background:
+        radial-gradient(circle at 10% 20%, rgba(65, 150, 255, 0.9), transparent 50%),
+        radial-gradient(circle at 80% 10%, rgba(255, 110, 200, 0.9), transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(140, 90, 255, 0.9), transparent 50%),
+        linear-gradient(135deg, #4F8BFF, #8D5AFB 50%, #FF5BC4);
+    background-blend-mode: overlay, screen, normal;
+        overflow-x: hidden;
+          padding-bottom: calc(180px + env(safe-area-inset-bottom));
+    }
+
+    /* Header */
+    .header {
+        text-align: center;
+        padding: 40px 20px 10px;
+        color: rgb(0, 0, 0);
+    }
+
+    .logo {
+    width: clamp(100px, 20vw, 180px);
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+    object-fit: contain;
+}
+
+
+
+    .title {
+    font-size: clamp(28px, 6vw, 46px);   /* Bigger title */
+    font-weight: 800;
+    color: #000; 
+}
+
+    .subtitle {
+    font-size: clamp(22px, 5vw, 34px);
+    font-weight: 700;
+    color: #000;
+}
+
+    /* Rows */
+    .row-wrapper {
+    margin: 36px 50px;      /* TOP/BOTTOM 36px — LEFT/RIGHT 26px */
+    border-radius: 26px;
+    padding: 22px;
+    transition: 0.3s;
+}
+
+
+    .row-wrapper.selected {
+    outline: 7px solid #ffffff;
+    box-shadow:
+        0 0 25px rgba(255,255,255,0.9),
+        0 0 45px rgba(255,120,255,0.6),
+        0 0 70px rgba(120,180,255,0.4);
+    transform: scale(1.03);
+    transition: all 0.25s ease;
+}
+
+    .row-images {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: clamp(8px, 2vw, 14px);
+    }
+
+    .row-images img {
+        width: 100%;
+        border-radius: 18px;
+        display: block;
+    }
+
+    /* Footer */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        backdrop-filter: blur(18px);
+        background: rgba(255,255,255,0.45);
+        padding: 12px 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: clamp(16px, 2.2vw, 22px);
+        color: #000000;
+    font-weight: 700;
+    }
+
+    #weiterBtn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 18px;
+        background: #d3d3d3;
+        color: #666;
+        font-size: clamp(16px, 2vw, 20px);
+        font-weight: 700;
+        transition: 0.25s;
+    }
+
+    #weiterBtn.active {
+        background: #00D26A;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0,200,110,0.4);
+        cursor: pointer;
+    }
+
+    /* Thank You Screen */
+    #thankyou {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(135deg, #5AB0FF, #D168FF);
+
+    /* NEW DESIGN */
+    color: #000000;               /* pure black */
+    font-weight: 900;             /* super bold */
+    font-size: clamp(40px, 8vw, 70px);  /* much larger */
+    letter-spacing: 1px;
+    text-align: center;
+
+    padding: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <img src="img/jabjab logo.png" alt="Logo" class="logo">
+
+    <div class="title">Deine Wahl, Dein Stil</div>
+    <div class="subtitle">Wähle 3 Lieblingsbälle</div>
+    <div class="subtitle" style="font-size: 22px;">Klicke auf die 3 Bälle, die dir am besten gefallen</div>
+</div>
+
+<!-- ROWS -->
+<div id="rowsContainer"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div><span id="count">0</span> / 3 ausgewählt</div>
+    <button id="weiterBtn">Weiter</button>
+</div>
+
+<!-- THANK YOU SCREEN -->
+<div id="thankyou">
+    <img src="img/jabjab logo.png" class="thank-logo">
+    <div class="thank-text">Danke! ✔</div>
+    <div class="thank-sub">Neuer Kunde in 3 Sekunden…</div>
+</div>
+
+
+<script>
+/* GOOGLE FORM SETTINGS */
+const formURL =
+ "https://docs.google.com/forms/d/1fRd6PAI_IcwVgsTk2PZ0iH5CYzMiSQ6bqm7Rlod4rSU/formResponse";
+const entryID = "entry.875728941";
+
+/* ROW GRADIENTS */
+const gradients = [
+    "linear-gradient(90deg, #ff7eb3, #ff65a3)",
+    "linear-gradient(90deg, #56e1ff, #38b6ff)",
+    "linear-gradient(90deg, #7df77d, #0ed675)",
+    "linear-gradient(90deg, #ffa96c, #ff766c)",
+    "linear-gradient(90deg, #c18bff, #a55bff)",
+    "linear-gradient(90deg, #6fe7ff, #008cff)",
+    "linear-gradient(90deg, #ffd86f, #ffac33)",
+    "linear-gradient(90deg, #ff6fd8, #c846ff)"
+];
+
+/* BUILD ROWS */
+const container = document.getElementById("rowsContainer");
+let selectedRows = [];
+
+for (let i = 0; i < 8; i++) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "row-wrapper";
+    wrapper.style.background = gradients[i];
+    wrapper.dataset.row = "Ball" + (i + 1);
+
+    const imgs = document.createElement("div");
+    imgs.className = "row-images";
+
+    // Each row uses 4 angle images
+    const angles = ["front", "back", "left", "right"];
+
+for (let j = 0; j < 4; j++) {
+    const img = document.createElement("img");
+    img.src = `img/ball${i + 1}-${angles[j]}.png`;
+    imgs.appendChild(img);
+}
+
+
+    wrapper.appendChild(imgs);
+
+    wrapper.addEventListener("click", () => {
+        const val = wrapper.dataset.row;
+
+        if (wrapper.classList.contains("selected")) {
+            wrapper.classList.remove("selected");
+            selectedRows = selectedRows.filter(x => x !== val);
+        } else {
+            if (selectedRows.length < 3) {
+                wrapper.classList.add("selected");
+                selectedRows.push(val);
+            }
+        }
+
+        updateUI();
+    });
+
+    container.appendChild(wrapper);
+}
+
+/* UPDATE UI */
+function updateUI() {
+    document.getElementById("count").innerText = selectedRows.length;
+    const btn = document.getElementById("weiterBtn");
+
+    if (selectedRows.length === 3) btn.classList.add("active");
+    else btn.classList.remove("active");
+}
+
+/* SUBMIT */
+document.getElementById("weiterBtn").addEventListener("click", () => {
+    if (selectedRows.length !== 3) return;
+
+    const fd = new FormData();
+    fd.append(entryID, selectedRows.join(", "));
+
+    fetch(formURL, { method: "POST", mode: "no-cors", body: fd });
+
+    // show thank-you screen
+    document.getElementById("thankyou").style.display = "flex";
+
+    setTimeout(() => { location.reload(); }, 3000);
+});
+</script>
+
+</body>
+</html>
