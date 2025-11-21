@@ -161,6 +161,18 @@ body {
     text-align: center;
 }
 
+@media (min-width: 1024px) {
+    #rowsContainer {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    .row-wrapper {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+}
+
 </style>
 </head>
 
@@ -198,15 +210,32 @@ const entryID = "entry.875728941";
 
 /* GRADIENT COLORS */
 const gradients = [
-    "linear-gradient(90deg, #ff7eb3, #ff65a3)",
-    "linear-gradient(90deg, #56e1ff, #38b6ff)",
-    "linear-gradient(90deg, #7df77d, #0ed675)",
-    "linear-gradient(90deg, #ffa96c, #ff766c)",
-    "linear-gradient(90deg, #c18bff, #a55bff)",
-    "linear-gradient(90deg, #6fe7ff, #008cff)",
-    "linear-gradient(90deg, #ffd86f, #ffac33)",
-    "linear-gradient(90deg, #ff6fd8, #c846ff)"
+    // 1 — Türkis & Magenta (more neon, more contrast)
+    "linear-gradient(135deg, #2ad8d0 0%, #7a3cff 45%, #ff2ad6 100%)",
+
+    // 2 — Türkis & Blau (deeper blue + bright turquoise)
+    "linear-gradient(135deg, #00d4ff 0%, #0090ff 40%, #0058ff 100%)",
+
+    // 3 — Indigo & Blutorange (cinematic + strong orange)
+    "linear-gradient(135deg, #3a0ca3 0%, #7209b7 35%, #ff6a00 100%)",
+
+    // 4 — Rot & Grün (Christmas neon but stylish, not harsh)
+    "linear-gradient(135deg, #ff0033 0%, #ff4a4a 33%, #45ff55 100%)",
+
+    // 5 — Violett & Salmon (soft but deep, very aesthetic)
+    "linear-gradient(135deg, #6d28d9 0%, #b26efc 40%, #ff8fa3 100%)",
+
+    // 6 — Gelb & Rosa (vibrant sunshine + pink glow)
+    "linear-gradient(135deg, #ffe066 0%, #ffb347 35%, #ff6fb7 100%)",
+
+    // 7 — Türkis & Rosa (cotton-candy neon)
+    "linear-gradient(135deg, #35f2e3 0%, #42a5ff 40%, #ff70d9 100%)",
+
+    // 8 — Gelb & Orange (improved! strong orange, warm high energy)
+    "linear-gradient(135deg, #ffe259 0%, #ff9d00 40%, #ff6a00 100%)"
 ];
+
+
 
 let selectedRows = [];
 const container = document.getElementById("rowsContainer");
