@@ -15,20 +15,18 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
     margin: 0;
     overflow-x: hidden;
-    padding-bottom: calc(220px + env(safe-area-inset-bottom));
 
-    /* ULTRA SMOOTH GLOWING GRADIENT */
+    padding-bottom: 220px;
+
     background: radial-gradient(circle at 20% 20%, rgba(255, 130, 210, 0.55), transparent 50%),
                 radial-gradient(circle at 80% 30%, rgba(120, 180, 255, 0.50), transparent 55%),
                 radial-gradient(circle at 50% 80%, rgba(255, 220, 140, 0.45), transparent 50%),
                 linear-gradient(135deg, #5A8CFF 0%, #974BFF 50%, #FF63C3 100%);
-    
+
     background-blend-mode: screen, overlay, normal, normal;
     background-attachment: fixed;
     filter: brightness(1.1) saturate(1.25);
 }
-
-
 
 /* HEADER */
 .header {
@@ -42,9 +40,9 @@ body {
     height: auto;
     margin: 0 auto 20px;
     display: block;
-    object-fit: contain;
 }
 
+/* Title */
 .title {
     font-size: clamp(30px, 6vw, 48px);
     font-weight: 800;
@@ -63,7 +61,6 @@ body {
     transition: 0.25s ease;
 }
 
-/* ALWAYS 4 COLUMNS */
 .row-images {
     display: grid;
     grid-template-columns: repeat(4, 1fr) !important;
@@ -76,13 +73,8 @@ body {
     font-weight: 900;
     margin-bottom: 14px;
     color: rgba(255,255,255,0.95);
-    letter-spacing: 1.5px;
-    text-shadow: 
-        0 0 8px rgba(0,0,0,0.6),
-        0 0 14px rgba(0,0,0,0.4);
-    font-family: 'Arial Black', -apple-system, BlinkMacSystemFont;
+    text-shadow: 0 0 8px rgba(0,0,0,0.6);
 }
-
 
 /* IMAGE STYLE */
 .row-images img {
@@ -124,9 +116,6 @@ body {
     z-index: 1000;
 }
 
-
-
-
 #weiterBtn {
     padding: 10px 26px;
     border: none;
@@ -137,69 +126,19 @@ body {
     transition: 0.25s ease;
 }
 
-
 #weiterBtn.active {
     background: #00D26A;
     color: white;
     box-shadow: 0 4px 20px rgba(0,200,110,0.4);
     cursor: pointer;
 }
-
-/* THANK YOU SCREEN */
-#thankyou {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-
-    /* makes sure it fully covers safe area on iPhone */
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-
-    display: none; /* hidden at start */
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
-    background: linear-gradient(135deg, #5AB0FF, #D168FF); /* your gradient */
-
-    z-index: 9999; /* ensures footer cannot overlap */
-    overflow: hidden; /* prevents scroll */
-}
-
-#thankyou img {
-    width: 140px;
-    height: auto;
-    margin-bottom: 20px;
-}
-
-#thankyou .thank-text {
-    font-size: clamp(40px, 8vw, 70px);
-    font-weight: 900;
-    color: #000;
-    text-align: center;
-}
-
-#thankyou .thank-sub {
-    font-size: clamp(20px, 4vw, 28px);
-    margin-top: 12px;
-    color: #000;
-    font-weight: 700;
-}
-
-
-@media (min-width: 1024px) {
-    #rowsContainer {
-        padding-left: 60px;
-        padding-right: 60px;
-    }
-
+@media (min-width: 1025px) {
     .row-wrapper {
-        margin-left: 40px;
-        margin-right: 40px;
+        margin-left: 60px !important;
+        margin-right: 60px !important;
     }
 }
+
 
 </style>
 </head>
@@ -214,20 +153,13 @@ body {
     <div class="subtitle" style="font-size: 22px;">Klicke auf die 3 Bälle</div>
 </div>
 
-<!-- GRID CONTAINER -->
+<!-- GRID -->
 <div id="rowsContainer"></div>
 
 <!-- FOOTER -->
 <div class="footer">
     <div><span id="count">0</span> / 3 ausgewählt</div>
     <button id="weiterBtn">Weiter</button>
-</div>
-
-<!-- FINAL SCREEN -->
-<div id="thankyou">
-    <img src="img/jabjab logo.png" style="width:160px; margin-bottom:20px;">
-    Danke! ✔<br>
-    <div style="font-size:28px; margin-top:10px; font-weight:700;">Neuer Kunde in 3 Sekunden…</div>
 </div>
 
 <script>
@@ -238,61 +170,40 @@ const entryID = "entry.875728941";
 
 /* GRADIENT COLORS */
 const gradients = [
-    // 1 — Türkis & Magenta (more neon, more contrast)
     "linear-gradient(135deg, #2ad8d0 0%, #7a3cff 45%, #ff2ad6 100%)",
-
-    // 2 — Türkis & Blau (deeper blue + bright turquoise)
     "linear-gradient(135deg, #00d4ff 0%, #0090ff 40%, #0058ff 100%)",
-
-    // 3 — Indigo & Blutorange (cinematic + strong orange)
     "linear-gradient(135deg, #3a0ca3 0%, #7209b7 35%, #ff6a00 100%)",
-
-    // 4 — Rot & Grün (Christmas neon but stylish, not harsh)
     "linear-gradient(135deg, #ff0033 0%, #ff4a4a 33%, #45ff55 100%)",
-
-    // 5 — Violett & Salmon (soft but deep, very aesthetic)
     "linear-gradient(135deg, #6d28d9 0%, #b26efc 40%, #ff8fa3 100%)",
-
-    // 6 — Gelb & Rosa (vibrant sunshine + pink glow)
     "linear-gradient(135deg, #ffe066 0%, #ffb347 35%, #ff6fb7 100%)",
-
-    // 7 — Türkis & Rosa (cotton-candy neon)
     "linear-gradient(135deg, #35f2e3 0%, #42a5ff 40%, #ff70d9 100%)",
-
-    // 8 — Gelb & Orange (improved! strong orange, warm high energy)
     "linear-gradient(135deg, #ffe259 0%, #ff9d00 40%, #ff6a00 100%)"
 ];
-
-
 
 let selectedRows = [];
 const container = document.getElementById("rowsContainer");
 
 /* BUILD ROWS */
+const colorNames = [
+    "Türkis & Magenta", "Türkis & Blau", "Indigo & Blutorange", "Rot & Grün",
+    "Violett & Salmon", "Gelb & Rosa", "Türkis & Rosa", "Gelb & Orange"
+];
+
 for (let i = 0; i < 8; i++) {
     const wrapper = document.createElement("div");
     wrapper.className = "row-wrapper";
     wrapper.style.background = gradients[i];
     wrapper.dataset.row = "Ball" + (i + 1);
 
+    const label = document.createElement("div");
+    label.className = "row-label";
+    label.textContent = colorNames[i];
+    wrapper.appendChild(label);
+
     const imgs = document.createElement("div");
     imgs.className = "row-images";
 
-    // Label for each ball
-const colorNames = [
-    "Türkis & Magenta", "Türkis & Blau", "Indigo & Blutorange", "Rot & Grün",
-    "Violett & Salmon", "Gelb & Rosa", "Türkis & Rosa", "Gelb & Orange"
-];
-
-const label = document.createElement("div");
-label.className = "row-label";
-label.textContent = colorNames[i];
-wrapper.appendChild(label);
-
-
-    const angles = ["front", "back", "left", "right"];
-
-    angles.forEach(a => {
+    ["front", "back", "left", "right"].forEach(a => {
         const img = document.createElement("img");
         img.src = `img/ball${i + 1}-${a}.jpg`;
         imgs.appendChild(img);
@@ -317,15 +228,15 @@ wrapper.appendChild(label);
     container.appendChild(wrapper);
 }
 
-/* UPDATE UI */
 function updateUI() {
     document.getElementById("count").innerText = selectedRows.length;
     const btn = document.getElementById("weiterBtn");
+
     if (selectedRows.length === 3) btn.classList.add("active");
     else btn.classList.remove("active");
 }
 
-/* SEND DATA + SHOW FINAL SCREEN */
+/* THANK-YOU SCREEN + CONFETTI */
 document.getElementById("weiterBtn").addEventListener("click", () => {
     if (selectedRows.length !== 3) return;
 
@@ -333,10 +244,81 @@ document.getElementById("weiterBtn").addEventListener("click", () => {
     fd.append(entryID, selectedRows.join(", "));
     fetch(formURL, { method: "POST", mode: "no-cors", body: fd });
 
-    document.getElementById("thankyou").style.display = "flex";
-    document.body.style.overflow = "hidden";
+    // Replace full screen
+    document.body.innerHTML = `
+        <style>
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.18); }
+                100% { transform: scale(1); }
+            }
+        </style>
+
+        <div style="
+            position:fixed; inset:0; display:flex; flex-direction:column;
+            justify-content:center; align-items:center;
+            background: linear-gradient(135deg, #5AB0FF, #D168FF);
+            font-family:-apple-system, BlinkMacSystemFont, Arial;
+            text-align:center;">
+            
+            <img src="img/jabjab logo.png" style="width:260px; margin-bottom:35px;">
+            
+            <div style="
+                font-size:110px;
+                font-weight:900;
+                animation:pulse 1.4s ease-in-out infinite;">
+                Danke! ✔
+            </div>
+
+            <div style="font-size:45px; margin-top:22px; font-weight:700;">
+                Neuer Kunde in 3 Sekunden…
+            </div>
+        </div>
+    `;
+
+    /* Load confetti library AFTER replacing body */
+    let script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+    script.onload = () => {
+        setTimeout(() => startConfetti(), 100);
+    };
+    document.body.appendChild(script);
+
+    /* Reload after 3 sec */
     setTimeout(() => location.reload(), 3000);
 });
+
+/* CONFETTI FUNCTION */
+function startConfetti() {
+    confetti({
+        particleCount: 120,
+        spread: 90,
+        origin: { y: 0.6 }
+    });
+
+    setTimeout(() => {
+        confetti({
+            particleCount: 180,
+            spread: 120,
+            origin: { y: 0.3 }
+        });
+    }, 300);
+
+    let duration = 1500;
+    let end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 6,
+            spread: 70
+        });
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
 </script>
+
 </body>
 </html>
