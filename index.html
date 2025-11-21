@@ -13,18 +13,21 @@ html, body { margin: 0; padding: 0; height: 100%; }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
-    background:
-        radial-gradient(circle at 10% 20%, rgba(65,150,255,0.9), transparent 50%),
-        radial-gradient(circle at 80% 10%, rgba(255,110,200,0.9), transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(140,90,255,0.9), transparent 50%),
-        linear-gradient(135deg, #4F8BFF, #8D5AFB 50%, #FF5BC4);
-
-    background-blend-mode: overlay, screen, normal;
+    margin: 0;
     overflow-x: hidden;
+    padding-bottom: calc(220px + env(safe-area-inset-bottom));
 
-    /* FIX: space so footer doesn't cover the last options */
-    padding-bottom: calc(260px + env(safe-area-inset-bottom));
+    /* ULTRA SMOOTH GLOWING GRADIENT */
+    background: radial-gradient(circle at 20% 20%, rgba(255, 130, 210, 0.55), transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(120, 180, 255, 0.50), transparent 55%),
+                radial-gradient(circle at 50% 80%, rgba(255, 220, 140, 0.45), transparent 50%),
+                linear-gradient(135deg, #5A8CFF 0%, #974BFF 50%, #FF63C3 100%);
+    
+    background-blend-mode: screen, overlay, normal, normal;
+    background-attachment: fixed;
+    filter: brightness(1.1) saturate(1.25);
 }
+
 
 
 /* HEADER */
@@ -67,6 +70,20 @@ body {
     gap: 12px;
 }
 
+.row-label {
+    text-align: center;
+    font-size: clamp(20px, 4vw, 34px);
+    font-weight: 900;
+    margin-bottom: 14px;
+    color: rgba(255,255,255,0.95);
+    letter-spacing: 1.5px;
+    text-shadow: 
+        0 0 8px rgba(0,0,0,0.6),
+        0 0 14px rgba(0,0,0,0.4);
+    font-family: 'Arial Black', -apple-system, BlinkMacSystemFont;
+}
+
+
 /* IMAGE STYLE */
 .row-images img {
     width: 100%;
@@ -87,25 +104,27 @@ body {
 
 /* FOOTER */
 .footer {
-    position: fixed;
+    position: sticky;
     bottom: 0;
     width: 100%;
+    height: 85px;
+
     backdrop-filter: blur(20px);
-    background: rgba(255,255,255,0.55);
-    padding: 10px 22px; /* reduced height */
+    background: rgba(255,255,255,0.7);
+
+    padding: 12px 26px calc(env(safe-area-inset-bottom) + 10px);
+
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    height: 70px; /* fixed compact height */
-    
     font-weight: 700;
-    font-size: clamp(15px, 2.5vw, 20px);
+    font-size: clamp(16px, 2.5vw, 22px);
     color: #000;
-
-    /* safe-area support for iPhones */
-    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 1000;
 }
+
+
 
 
 #weiterBtn {
@@ -202,6 +221,18 @@ for (let i = 0; i < 8; i++) {
     const imgs = document.createElement("div");
     imgs.className = "row-images";
 
+    // Label for each ball
+const colorNames = [
+    "Türkis & Magenta", "Türkis & Blau", "Indigo & Blutorange", "Rot & Grün",
+    "Violett & Salmon", "Gelb & Rosa", "Türkis & Rosa", "Gelb & Orange"
+];
+
+const label = document.createElement("div");
+label.className = "row-label";
+label.textContent = colorNames[i];
+wrapper.appendChild(label);
+
+
     const angles = ["front", "back", "left", "right"];
 
     angles.forEach(a => {
@@ -249,6 +280,8 @@ document.getElementById("weiterBtn").addEventListener("click", () => {
     setTimeout(() => location.reload(), 3000);
 });
 </script>
+<div style="height: 200px;"></div>
+
 
 </body>
 </html>
