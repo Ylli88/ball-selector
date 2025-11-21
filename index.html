@@ -2,169 +2,132 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
 <title>Deine Wahl</title>
 
 <style>
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* GLOBAL */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; height: 100%; }
 
-    body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
-        background:
-        radial-gradient(circle at 10% 20%, rgba(65, 150, 255, 0.9), transparent 50%),
-        radial-gradient(circle at 80% 10%, rgba(255, 110, 200, 0.9), transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(140, 90, 255, 0.9), transparent 50%),
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(65,150,255,0.9), transparent 50%),
+        radial-gradient(circle at 80% 10%, rgba(255,110,200,0.9), transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(140,90,255,0.9), transparent 50%),
         linear-gradient(135deg, #4F8BFF, #8D5AFB 50%, #FF5BC4);
     background-blend-mode: overlay, screen, normal;
-        overflow-x: hidden;
-          padding-bottom: calc(180px + env(safe-area-inset-bottom));
-    }
-
-    /* Header */
-    .header {
-        text-align: center;
-        padding: 40px 20px 10px;
-        color: rgb(0, 0, 0);
-    }
-
-    .logo {
-    width: clamp(100px, 20vw, 180px);
-    height: auto;
-    display: block;
-    margin: 0 auto 20px;
-    object-fit: contain;
+    overflow-x: hidden;
+    padding-bottom: calc(160px + env(safe-area-inset-bottom));
 }
 
-
-
-    .title {
-    font-size: clamp(28px, 6vw, 46px);   /* Bigger title */
-    font-weight: 800;
-    color: #000; 
-}
-
-    .subtitle {
-    font-size: clamp(22px, 5vw, 34px);
-    font-weight: 700;
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 40px 20px 10px;
     color: #000;
 }
 
-/* MOBILE: Make images bigger */
-.row-grid {
-    display: grid;
-    gap: 14px;                   /* More spacing */
-    grid-template-columns: repeat(2, 1fr);  /* 2 big images per row */
+.logo {
+    width: clamp(120px, 22vw, 200px);
+    height: auto;
+    margin: 0 auto 20px;
+    display: block;
+    object-fit: contain;
 }
 
-.row-grid img {
+.title {
+    font-size: clamp(30px, 6vw, 48px);
+    font-weight: 800;
+}
+
+.subtitle {
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 700;
+}
+
+/* ROWS */
+.row-wrapper {
+    margin: 35px 22px;
+    border-radius: 24px;
+    padding: 20px;
+    transition: 0.25s ease;
+}
+
+/* ALWAYS 4 COLUMNS */
+.row-images {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px;
+}
+
+/* IMAGE STYLE */
+.row-images img {
     width: 100%;
-    height: auto;
-    border-radius: 20px;        /* Bigger corners */
+    border-radius: 18px;
+    display: block;
     object-fit: cover;
 }
-@media (min-width: 700px) {
-    .row-grid {
-        gap: 14px;
-        grid-template-columns: repeat(4, 1fr);  /* still 4 per row */
-    }
 
-    .row-grid img {
-        border-radius: 22px;
-        width: 100%;
-    }
-
-    .row-wrapper {
-          margin: 28px 18px;   /* reduced side margins */
-        padding: 22px;
-    }
-}
-
-
-    /* Rows */
-    .row-wrapper {
-    margin: 36px 50px;      /* TOP/BOTTOM 36px — LEFT/RIGHT 26px */
-    border-radius: 26px;
-    padding: 22px;
-    transition: 0.3s;
-}
-
-
-    .row-wrapper.selected {
-    outline: 7px solid #ffffff;
+/* SELECTED ROW */
+.row-wrapper.selected {
+    outline: 6px solid #fff;
     box-shadow:
         0 0 25px rgba(255,255,255,0.9),
-        0 0 45px rgba(255,120,255,0.6),
-        0 0 70px rgba(120,180,255,0.4);
+        0 0 45px rgba(255,120,255,0.7),
+        0 0 70px rgba(120,180,255,0.5);
     transform: scale(1.03);
-    transition: all 0.25s ease;
 }
 
-    .row-images {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: clamp(8px, 2vw, 14px);
-    }
-
-    .row-images img {
-        width: 100%;
-        border-radius: 18px;
-        display: block;
-    }
-
-    /* Footer */
-    .footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        backdrop-filter: blur(18px);
-        background: rgba(255,255,255,0.45);
-        padding: 12px 25px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: clamp(16px, 2.2vw, 22px);
-        color: #000000;
+/* FOOTER */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.45);
+    padding: 14px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-weight: 700;
-    }
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: #000;
+}
 
-    #weiterBtn {
-        padding: 12px 30px;
-        border: none;
-        border-radius: 18px;
-        background: #d3d3d3;
-        color: #666;
-        font-size: clamp(16px, 2vw, 20px);
-        font-weight: 700;
-        transition: 0.25s;
-    }
+#weiterBtn {
+    padding: 12px 34px;
+    border: none;
+    border-radius: 16px;
+    background: #d3d3d3;
+    color: #666;
+    font-size: clamp(16px, 2.2vw, 20px);
+    transition: 0.25s ease;
+}
 
-    #weiterBtn.active {
-        background: #00D26A;
-        color: white;
-        box-shadow: 0 4px 20px rgba(0,200,110,0.4);
-        cursor: pointer;
-    }
+#weiterBtn.active {
+    background: #00D26A;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,200,110,0.4);
+    cursor: pointer;
+}
 
-    /* Thank You Screen */
-    #thankyou {
+/* THANK YOU SCREEN */
+#thankyou {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     display: none;
+    background: linear-gradient(135deg, #5AB0FF, #D168FF);
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background: linear-gradient(135deg, #5AB0FF, #D168FF);
-
-    /* NEW DESIGN */
-    color: #000000;               /* pure black */
-    font-weight: 900;             /* super bold */
-    font-size: clamp(40px, 8vw, 70px);  /* much larger */
-    letter-spacing: 1px;
+    color: black;
+    font-weight: 900;
+    font-size: clamp(40px, 8vw, 70px);
     text-align: center;
-
-    padding: 20px;
 }
 
 </style>
@@ -174,14 +137,13 @@
 
 <!-- HEADER -->
 <div class="header">
-    <img src="img/jabjab logo.png" alt="Logo" class="logo">
-
+    <img src="img/jabjab logo.png" class="logo">
     <div class="title">Deine Wahl, Dein Stil</div>
     <div class="subtitle">Wähle 3 Lieblingsbälle</div>
-    <div class="subtitle" style="font-size: 22px;">Klicke auf die 3 Bälle, die dir am besten gefallen</div>
+    <div class="subtitle" style="font-size: 22px;">Klicke auf die 3 Bälle</div>
 </div>
 
-<!-- ROWS -->
+<!-- GRID CONTAINER -->
 <div id="rowsContainer"></div>
 
 <!-- FOOTER -->
@@ -190,21 +152,20 @@
     <button id="weiterBtn">Weiter</button>
 </div>
 
-<!-- THANK YOU SCREEN -->
+<!-- FINAL SCREEN -->
 <div id="thankyou">
-    <img src="img/jabjab logo.png" class="thank-logo">
-    <div class="thank-text">Danke! ✔</div>
-    <div class="thank-sub">Neuer Kunde in 3 Sekunden…</div>
+    <img src="img/jabjab logo.png" style="width:160px; margin-bottom:20px;">
+    Danke! ✔<br>
+    <div style="font-size:28px; margin-top:10px; font-weight:700;">Neuer Kunde in 3 Sekunden…</div>
 </div>
 
-
 <script>
-/* GOOGLE FORM SETTINGS */
+/* GOOGLE FORM */
 const formURL =
  "https://docs.google.com/forms/d/1fRd6PAI_IcwVgsTk2PZ0iH5CYzMiSQ6bqm7Rlod4rSU/formResponse";
 const entryID = "entry.875728941";
 
-/* ROW GRADIENTS */
+/* GRADIENT COLORS */
 const gradients = [
     "linear-gradient(90deg, #ff7eb3, #ff65a3)",
     "linear-gradient(90deg, #56e1ff, #38b6ff)",
@@ -216,10 +177,10 @@ const gradients = [
     "linear-gradient(90deg, #ff6fd8, #c846ff)"
 ];
 
-/* BUILD ROWS */
-const container = document.getElementById("rowsContainer");
 let selectedRows = [];
+const container = document.getElementById("rowsContainer");
 
+/* BUILD ROWS */
 for (let i = 0; i < 8; i++) {
     const wrapper = document.createElement("div");
     wrapper.className = "row-wrapper";
@@ -229,15 +190,13 @@ for (let i = 0; i < 8; i++) {
     const imgs = document.createElement("div");
     imgs.className = "row-images";
 
-    // Each row uses 4 angle images
     const angles = ["front", "back", "left", "right"];
 
-for (let j = 0; j < 4; j++) {
-    const img = document.createElement("img");
-    img.src = `img/ball${i + 1}-${angles[j]}.jpg`;
-    imgs.appendChild(img);
-}
-
+    angles.forEach(a => {
+        const img = document.createElement("img");
+        img.src = `img/ball${i + 1}-${a}.jpg`;
+        imgs.appendChild(img);
+    });
 
     wrapper.appendChild(imgs);
 
@@ -247,11 +206,9 @@ for (let j = 0; j < 4; j++) {
         if (wrapper.classList.contains("selected")) {
             wrapper.classList.remove("selected");
             selectedRows = selectedRows.filter(x => x !== val);
-        } else {
-            if (selectedRows.length < 3) {
-                wrapper.classList.add("selected");
-                selectedRows.push(val);
-            }
+        } else if (selectedRows.length < 3) {
+            wrapper.classList.add("selected");
+            selectedRows.push(val);
         }
 
         updateUI();
@@ -264,24 +221,20 @@ for (let j = 0; j < 4; j++) {
 function updateUI() {
     document.getElementById("count").innerText = selectedRows.length;
     const btn = document.getElementById("weiterBtn");
-
     if (selectedRows.length === 3) btn.classList.add("active");
     else btn.classList.remove("active");
 }
 
-/* SUBMIT */
+/* SEND DATA + SHOW FINAL SCREEN */
 document.getElementById("weiterBtn").addEventListener("click", () => {
     if (selectedRows.length !== 3) return;
 
     const fd = new FormData();
     fd.append(entryID, selectedRows.join(", "));
-
     fetch(formURL, { method: "POST", mode: "no-cors", body: fd });
 
-    // show thank-you screen
     document.getElementById("thankyou").style.display = "flex";
-
-    setTimeout(() => { location.reload(); }, 3000);
+    setTimeout(() => location.reload(), 3000);
 });
 </script>
 
